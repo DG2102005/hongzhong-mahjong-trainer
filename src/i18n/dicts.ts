@@ -1,0 +1,428 @@
+// 双语词典: zh(中文, 与主版本一致) / en(英文)
+// 键名扁平化管理, 模板变量用 {name} 占位
+
+export const zhDict: Record<string, string> = {
+  // 导航
+  'nav.game': '对弈',
+  'nav.review': '复盘',
+
+  // 按钮
+  'btn.start': '开始对弈',
+  'btn.custom': '选牌开局',
+  'btn.newRound': '开始新一局',
+  'btn.saveRound': '收藏本局',
+  'btn.saveHand': '收藏当前牌型',
+  'save.ongoing': '进行中',
+  'save.handLabel': '当前牌型',
+
+  // 提示
+  'hint.saved': '已收藏第{round}局 · {label}, 可到"📚 复盘"中查看',
+  'hint.notStarted': '开局后即可收藏',
+
+  // 品牌
+  'brand.name': '红中推倒胡',
+  'brand.sub': '训练工具',
+
+  // 演绎横幅
+  'freedraw.banner': '🔄 演绎模式 · 可自由选择进牌与舍牌 ({n} 张牌墙)',
+
+  // 欢迎页
+  'welcome.title': '红中百搭 · 广东推倒胡',
+  'welcome.desc': '1人对战3AI · 自摸/抢杠胡 · 明暗杠实时计分',
+  'welcome.features': '✓ 自动理牌 ✓ 逆时针出牌 ✓ 撤销重做 ✓ 牌型分解 ✓ 抢杠胡',
+
+  // 侧栏
+  'tab.info': '信息',
+  'tab.advisor': 'AI辅助',
+  'advisor.empty': '开局后即可查看打牌建议',
+  'turn.discard': '轮到你出牌',
+
+  // 规则卡
+  'idle.title': '对局规则',
+  'idle.r1': '红中为百搭，可代任意牌',
+  'idle.r2': '自摸胡牌 · 抢杠胡实时计分',
+  'idle.r3': '可撤销重做 · 支持牌型分解',
+
+  // 撤销/重做
+  'undo.title': '撤销上一步',
+  'undo.btn': '↩ 撤销',
+  'redo.title': '重做',
+  'redo.btn': '↪ 重do',
+
+  // 信息面板
+  'info.round': '局数',
+  'info.banker': '庄家',
+  'info.current': '当前',
+  'info.phase': '阶段',
+  'info.deck': '剩余牌',
+  'phase.idle': '未开始',
+  'phase.dealing': '发牌中',
+  'phase.draw': '摸牌',
+  'phase.discard': '出牌',
+  'phase.action': '操作',
+  'phase.react': '选择操作',
+  'phase.win': '{seat}胡牌',
+  'phase.draw2': '流局',
+  'wall.title': '剩余牌墙 · {n} 张',
+
+  // 操作面板
+  'act.peng': '碰',
+  'act.minggang': '明杠',
+  'act.angang': '暗杠',
+  'act.bugang': '补杠',
+  'act.hu': '自摸胡',
+  'act.rob': '抢杠胡',
+  'act.prompt.react': '请选择操作:',
+  'act.prompt.self': '可执行:',
+  'act.prompt.qianggang': '有人补杠,可抢杠胡:',
+  'act.pass': '放弃',
+
+  // 座位
+  'seat.dealer': '庄',
+  'seat.thinking': '思考中…',
+  'seat.won': '自摸胡牌',
+  'seat.draw': '流局',
+  'seat.stats': '手牌{n} · 副露{m}张',
+  'seat.discards': '弃: ',
+
+  // 手牌
+  'hand.new': '新',
+  'hand.hint.play': '点击选择要打出的牌',
+  'hand.hint.confirm': '再次点击确认出牌',
+  'hand.hint.decompose': '分解模式: 拖拽牌重排·点击牌切换间隔·再点"分解牌型"关闭',
+  'hand.decompose': '分解牌型',
+
+  // 自由进牌
+  'freedraw.title': '🎲 自由进牌 · 从剩余牌墙({n})中选一张摸入，点击下面的牌即可',
+  'freedraw.pick': '摸{tile}',
+
+  // 选牌开局
+  'picker.title': '🎯 选牌开局',
+  'picker.tip': '从牌池选 14 张手牌（每种最多 4 张），选好后点击左下角"开始AI对弈"；点击手牌可移除',
+  'picker.hand': '我的手牌 ({n}/14)',
+  'picker.empty': '点击上方牌池自由选牌',
+  'picker.clear': '✕ 清空',
+  'picker.random': '🎲 随机补齐',
+  'picker.cancel': '取消',
+  'picker.start': '🀄 开始AI对弈',
+  'picker.remove': '点击移除{tile}',
+  'suit.m': '万',
+  'suit.p': '筒',
+  'suit.s': '条',
+  'suit.z': '字',
+
+  // 复盘
+  'replay.title': '📚 收藏牌局({n})',
+  'replay.clear': '清空',
+  'replay.empty': '对弈中可随时点击"收藏当前牌型"保存，对弈结束后可点击"收藏本局"，供复盘与演绎',
+  'replay.round': '第{n}局 · {label}',
+  'replay.start': '开局',
+  'replay.step': '第{n}步 · {label}',
+  'replay.hand': '我的手牌',
+  'replay.meld': '副露',
+  'replay.discard': '弃牌',
+  'replay.none': '无',
+  'replay.btn': '✍ 在此自由演绎(选牌摸进/舍出)',
+  'replay.btn.title': '在本页直接自由选摸进/舍出继续打',
+
+  // 动作标签(复盘时间线)
+  'label.hu': '自摸胡',
+  'label.peng': '碰',
+  'label.gang': '杠',
+  'label.minggang': '明杠',
+  'label.angang': '暗杠',
+  'label.bugang': '补杠',
+  'label.discard': '出牌',
+
+  // 演绎台
+  'sandbox.title': '🀄 演绎台 · {label}',
+  'sandbox.phase.idle': '未开始',
+  'sandbox.phase.wall': '牌墙{n}',
+  'sandbox.turn.discard': '轮到你舍牌',
+  'sandbox.turn.draw': '轮到你自由摸牌',
+  'sandbox.end': '演绎结束 · {result}',
+  'sandbox.tip': '此节点为终局，无继续演绎空间（可换一个更早的节点开始）。',
+
+  // 牌
+  'tile.back': '牌背',
+  'tile.hongzhong': '红中百搭',
+  'tile.danger2': '危险牌',
+  'tile.danger1': '需注意',
+  'tile.recommend': '推荐打出',
+  'tile.index': '第{index}张',
+  'tile.warn': '注意',
+  'tile.danger': '危险',
+  'tile.recommendMark': '推',
+
+  // 副露
+  'meld.peng': '碰',
+  'meld.minggang': '明杠',
+  'meld.angang': '暗杠',
+  'meld.bugang': '补杠',
+
+  // 积分面板
+  'score.round': '🏆 当轮积分',
+  'score.roundSub': '自摸 {n} 次 · 输 {m} 局',
+  'score.total': '💾 累计积分',
+  'score.totalSub': '累计自摸 {n} 次 · 输 {m} 局(永久保留)',
+  'score.gang': '🀄 杠分:',
+  'score.gangSelf': '你{type}得 +{n}',
+  'score.gangOther': '{seat}家{type},你 {n}',
+  'score.ang': '暗杠',
+  'score.ming': '明杠',
+  'score.bu': '补杠',
+  'score.resetRound': '↺ 当轮清零',
+  'score.resetAll': '✕ 累计清零',
+  'score.resetRound.title': '清零当轮积分,累计保留',
+  'score.resetAll.title': '清零全部积分(含累计)',
+  'score.mo': '🎴 摸码亮牌:',
+  'score.win': '自摸赢 3×{n}={m}, 三家各扣 {k}',
+  'score.rob': '抢杠胡!+{n} (被抢者赔付)',
+  'score.berobbed': '被抢杠!损失 -{n} (抢杠者得 {m})',
+  'score.lose': '被扣 -{n} (自摸者得 {m})',
+
+  // AI辅助 (AdvisorTab)
+  'adv.title': '🧭 辅助决策',
+  'adv.note': '标准胡型 · 红中可当任意牌',
+  'adv.emptyPanel': '开局后即可查看打牌建议',
+  'adv.hand': '手牌({n}张)',
+  'adv.empty': '全部手牌均为红中，无法打出',
+  'adv.discard': '打',
+  'adv.discardBest': '★ 打',
+  'adv.result': '计算结果: ',
+  'adv.waitPrefix': '可听',
+  'adv.huPrefix': '可胡',
+  'adv.improvePrefix': '可进',
+  'adv.unitTypes': '门',
+  'adv.unitTiles': '张',
+  'adv.prob': '摸牌概率 ≈ ',
+  'adv.playBtn': '打出此牌',
+  'adv.current': '当前: ',
+  'adv.won': '已胡!',
+  'adv.rec': '推荐打【{tile}】',
+  'adv.winMsg': '🎉 当前手牌已满足胡牌条件(4面子+1将)，直接胡牌',
+  'adv.partialCurrent': '已舍牌 · 当前: ',
+  'adv.stayTiles': '可进{n}张',
+  'adv.wonWord': '已胡',
+  'adv.tingWord': '听牌',
+  'adv.away': '进听',
+  'adv.peng.title': '碰牌推演 · 可碰【{tile}】',
+  'adv.peng.head': '碰 {tile} → 打 ',
+  'adv.peng.stay': '不碰(保持现状)',
+  'adv.peng.betterLower': '碰【{tile}】更优：向听从{from}降到{to}',
+  'adv.peng.betterSame': '碰【{tile}】更优：同向听但可进/可听张数更多',
+  'adv.peng.noadv': '碰【{tile}】未见明显优势，谨慎决策',
+};
+
+export const enDict: Record<string, string> = {
+  // 导航
+  'nav.game': 'Play',
+  'nav.review': 'Replay',
+
+  // 按钮
+  'btn.start': 'Start Match',
+  'btn.custom': 'Custom Deal',
+  'btn.newRound': 'New Round',
+  'btn.saveRound': 'Save Round',
+  'btn.saveHand': 'Save Current Hand',
+  'save.ongoing': 'In Progress',
+  'save.handLabel': 'Current hand',
+
+  // 提示
+  'hint.saved': 'Saved round {round} · {label} — view it in "📚 Replay"',
+  'hint.notStarted': 'You can save once the round starts',
+
+  // 品牌
+  'brand.name': 'Hongzhong Mahjong',
+  'brand.sub': 'Trainer',
+
+  // 演绎横幅
+  'freedraw.banner': '🔄 Improvise mode · free pick draw & discard ({n} tiles left)',
+
+  // 欢迎页
+  'welcome.title': 'Zhong Wild · Cantonese Mahjong',
+  'welcome.desc': 'You vs 3 AI · self-draw & rob-kong wins · real-time kong scoring',
+  'welcome.features': '✓ Auto hand sort ✓ Counter-clockwise ✓ Undo/redo ✓ Hand breakdown ✓ Rob-the-kong',
+
+  // 侧栏
+  'tab.info': 'Info',
+  'tab.advisor': 'AI Coach',
+  'advisor.empty': 'Start a round to see suggestions',
+  'turn.discard': 'Your turn — discard',
+
+  // 规则卡
+  'idle.title': 'Rules',
+  'idle.r1': 'Zhong is wild — it stands for any tile',
+  'idle.r2': 'Self-draw win · rob-kong scoring in real time',
+  'idle.r3': 'Undo/redo · hand breakdown support',
+
+  // 撤销/重做
+  'undo.title': 'Undo last move',
+  'undo.btn': '↩ Undo',
+  'redo.title': 'Redo',
+  'redo.btn': '↪ Redo',
+
+  // 信息面板
+  'info.round': 'Round',
+  'info.banker': 'Dealer',
+  'info.current': 'Turn',
+  'info.phase': 'Phase',
+  'info.deck': 'Tiles left',
+  'phase.idle': 'Not started',
+  'phase.dealing': 'Dealing',
+  'phase.draw': 'Draw',
+  'phase.discard': 'Discard',
+  'phase.action': 'Action',
+  'phase.react': 'React',
+  'phase.win': '{seat} won',
+  'phase.draw2': 'Draw',
+  'wall.title': 'Remaining wall · {n} tiles',
+
+  // 操作面板
+  'act.peng': 'Pong',
+  'act.minggang': 'Exposed Kong',
+  'act.angang': 'Concealed Kong',
+  'act.bugang': 'Replacement Kong',
+  'act.hu': 'Self-Draw Win',
+  'act.rob': 'Rob Kong',
+  'act.prompt.react': 'Choose an action:',
+  'act.prompt.self': 'Available:',
+  'act.prompt.qianggang': 'A kong was replaced — rob it?',
+  'act.pass': 'Pass',
+
+  // 座位
+  'seat.dealer': 'D',
+  'seat.thinking': 'Thinking…',
+  'seat.won': 'Self-draw win',
+  'seat.draw': 'Draw',
+  'seat.stats': 'Hand {n} · Exposed {m}',
+  'seat.discards': 'Discards: ',
+
+  // 手牌
+  'hand.new': 'NEW',
+  'hand.hint.play': 'Tap a tile to discard',
+  'hand.hint.confirm': 'Tap again to confirm',
+  'hand.hint.decompose': 'Breakdown: drag to reorder · tap to set gap · tap "Hand Breakdown" to exit',
+  'hand.decompose': 'Hand Breakdown',
+
+  // 自由进牌
+  'freedraw.title': '🎲 Free draw · pick any tile from the wall ({n}) and tap it',
+  'freedraw.pick': 'Draw {tile}',
+
+  // 选牌开局
+  'picker.title': '🎯 Custom Deal',
+  'picker.tip': 'Pick 14 tiles (max 4 of each). Tap "Start vs AI" when ready; tap a tile in your hand to remove it.',
+  'picker.hand': 'My hand ({n}/14)',
+  'picker.empty': 'Tap tiles above to build your hand',
+  'picker.clear': '✕ Clear',
+  'picker.random': '🎲 Fill Random',
+  'picker.cancel': 'Cancel',
+  'picker.start': '🀄 Start vs AI',
+  'picker.remove': 'Tap to remove {tile}',
+  'suit.m': 'Chars',
+  'suit.p': 'Dots',
+  'suit.s': 'Bamboo',
+  'suit.z': 'Honors',
+
+  // 复盘
+  'replay.title': '📚 Saved rounds ({n})',
+  'replay.clear': 'Clear',
+  'replay.empty': 'Tap "Save Current Hand" mid-round, or "Save Round" after finishing — saved hands appear here for replay & improvise.',
+  'replay.round': 'Round {n} · {label}',
+  'replay.start': 'Start',
+  'replay.step': 'Step {n} · {label}',
+  'replay.hand': 'My hand',
+  'replay.meld': 'Melds',
+  'replay.discard': 'Discards',
+  'replay.none': '—',
+  'replay.btn': '✍ Improvise here (free draw & discard)',
+  'replay.btn.title': 'Continue from this exact spot — pick every draw & discard',
+
+  // 动作标签(复盘时间线)
+  'label.hu': 'Self-draw win',
+  'label.peng': 'Pong',
+  'label.gang': 'Kong',
+  'label.minggang': 'Exposed Kong',
+  'label.angang': 'Concealed Kong',
+  'label.bugang': 'Replacement Kong',
+  'label.discard': 'Discard',
+
+  // 演绎台
+  'sandbox.title': '🀄 Improvise · {label}',
+  'sandbox.phase.idle': 'Not started',
+  'sandbox.phase.wall': 'wall {n}',
+  'sandbox.turn.discard': 'Your turn — discard',
+  'sandbox.turn.draw': 'Your turn — free draw',
+  'sandbox.end': 'Improvise ended · {result}',
+  'sandbox.tip': 'This node is the end of the round — pick an earlier step to continue from.',
+
+  // 牌
+  'tile.back': 'Tile back',
+  'tile.hongzhong': 'Zhong wild',
+  'tile.danger2': 'Dangerous',
+  'tile.danger1': 'Be careful',
+  'tile.recommend': 'Recommended discard',
+  'tile.index': 'Tile #{index}',
+  'tile.warn': 'Caution',
+  'tile.danger': 'Danger',
+  'tile.recommendMark': 'R',
+
+  // 副露
+  'meld.peng': 'Pong',
+  'meld.minggang': 'Exposed Kong',
+  'meld.angang': 'Concealed Kong',
+  'meld.bugang': 'Replacement Kong',
+
+  // 积分面板
+  'score.round': '🏆 Round score',
+  'score.roundSub': 'Self-draws {n} · losses {m}',
+  'score.total': '💾 Total score',
+  'score.totalSub': 'Lifetime draws {n} · losses {m} (kept forever)',
+  'score.gang': '🀄 Kong score: ',
+  'score.gangSelf': 'You +{n} ({type})',
+  'score.gangOther': '{seat} {type} → you {n}',
+  'score.ang': 'concealed kong',
+  'score.ming': 'exposed kong',
+  'score.bu': 'replacement kong',
+  'score.resetRound': '↺ Clear Round',
+  'score.resetAll': '✕ Clear All',
+  'score.resetRound.title': 'Reset round score, keep lifetime',
+  'score.resetAll.title': 'Reset all scores (incl. lifetime)',
+  'score.mo': '🎴 Drawn tiles: ',
+  'score.win': 'Self-draw win 3×{n}={m}, others each –{k}',
+  'score.rob': 'Rob-kong win +{n} (robbed one pays)',
+  'score.berobbed': 'Robbed! –{n} (robber gets {m})',
+  'score.lose': 'You pay –{n} (winner gets {m})',
+
+  // AI辅助 (AdvisorTab)
+  'adv.title': '🧭 Smart Advisor',
+  'adv.note': 'Standard win shape · Zhong is wild',
+  'adv.emptyPanel': 'Start a round to see discard advice',
+  'adv.hand': 'Hand ({n} tiles)',
+  'adv.empty': 'All tiles are Zhong — nothing to discard',
+  'adv.discard': 'Discard',
+  'adv.discardBest': '★ Discard',
+  'adv.result': 'Result: ',
+  'adv.waitPrefix': 'Waiting ',
+  'adv.huPrefix': 'Wait ',
+  'adv.improvePrefix': 'Improves ',
+  'adv.unitTypes': ' types · ',
+  'adv.unitTiles': ' tiles',
+  'adv.prob': 'Draw odds ≈ ',
+  'adv.playBtn': 'Discard this tile',
+  'adv.current': 'Current: ',
+  'adv.won': 'Win!',
+  'adv.rec': 'Best discard: {tile}',
+  'adv.winMsg': '🎉 This hand already wins (4 sets + 1 pair) — declare it!',
+  'adv.partialCurrent': 'Discarded · Current: ',
+  'adv.stayTiles': '{n} improvement tiles',
+  'adv.wonWord': 'Win',
+  'adv.tingWord': 'Ready',
+  'adv.away': ' away',
+  'adv.peng.title': 'Pong simulation · can Pong {tile}',
+  'adv.peng.head': 'Pong {tile} → discard ',
+  'adv.peng.stay': 'Skip (keep current hand)',
+  'adv.peng.betterLower': 'Pong {tile} is better: shanten drops from {from} to {to}',
+  'adv.peng.betterSame': 'Pong {tile} is better: same shanten but more winning tiles',
+  'adv.peng.noadv': 'Pong {tile} shows no clear advantage — decide carefully',
+};

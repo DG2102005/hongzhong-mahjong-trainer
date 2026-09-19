@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Hongzhong Mahjong Trainer — Practice the Cantonese wild-tile mahjong</title>
+<meta name="description" content="Train the Hongzhong (Red Zhong wild) Cantonese mahjong against 3 AI. Smart coach, replay &amp; improvise every hand, instant scoring. Free to play." />
+<meta property="og:title" content="Hongzhong Mahjong Trainer" />
+<meta property="og:description" content="Practice Cantonese wild mahjong vs 3 AI, with a smart coach and hand replay." />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='44' x='1' y='1' rx='5' fill='%2310b981'/%3E%3Ctext x='16' y='28' font-size='22' text-anchor='middle' fill='%23fff'%3E%E4%B8%AD%3C/text%3E%3C/svg%3E" />
+<style>
+  :root {
+    --bg: #0d1520;
+    --bg2: #101a2a;
+    --card: #16202f;
+    --line: #22314a;
+    --text: #e7eef7;
+    --muted: #93a3ba;
+    --green: #10b981;
+    --green-d: #0a9a6c;
+    --gold: #f5b942;
+    --red: #ef4444;
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background:
+      radial-gradient(1200px 500px at 80% -10%, rgba(16,185,129,.14), transparent 60%),
+      radial-gradient(900px 500px at -10% 20%, rgba(245,185,66,.08), transparent 55%),
+      var(--bg);
+    color: var(--text);
+    font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "PingFang SC", "Microsoft YaHei", sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 22px; }
+
+  /* Nav */
+  header.nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 22px; max-width: 1080px; margin: 0 auto;
+  }
+  .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 17px; letter-spacing: .2px; }
+  .logo .tile-logo {
+    width: 30px; height: 42px; border-radius: 6px;
+    background: linear-gradient(145deg, var(--green), var(--green-d));
+    display: grid; place-items: center; font-size: 19px; color: #fff;
+    box-shadow: 0 4px 14px rgba(16,185,129,.35);
+  }
+  .logo small { color: var(--muted); font-weight: 500; font-size: 12px; }
+  .nav-links { display: flex; align-items: center; gap: 22px; font-size: 14px; color: var(--muted); }
+  .nav-links a { text-decoration: none; transition: color .15s; }
+  .nav-links a:hover { color: var(--text); }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: linear-gradient(135deg, var(--green), var(--green-d));
+    color: #fff; border: none; border-radius: 10px; padding: 11px 20px;
+    font-size: 15px; font-weight: 700; cursor: pointer; text-decoration: none;
+    box-shadow: 0 6px 20px rgba(16,185,129,.3); transition: transform .12s, box-shadow .12s;
+  }
+  .btn:hover { transform: translateY(-1px); box-shadow: 0 10px 26px rgba(16,185,129,.4); }
+  .btn.ghost { background: transparent; border: 1px solid var(--line); box-shadow: none; color: var(--text); }
+  .btn.ghost:hover { border-color: var(--green); color: var(--green); }
+
+  /* Hero */
+  .hero { text-align: center; padding: 72px 0 56px; }
+  .hero .kicker {
+    display: inline-block; font-size: 13px; color: var(--green);
+    border: 1px solid rgba(16,185,129,.35); background: rgba(16,185,129,.08);
+    padding: 5px 14px; border-radius: 999px; margin-bottom: 20px; letter-spacing: .4px;
+  }
+  .hero h1 { font-size: clamp(30px, 5.4vw, 54px); line-height: 1.12; font-weight: 800; letter-spacing: -.6px; }
+  .hero h1 em { color: var(--gold); font-style: normal; }
+  .hero h1 .hong { color: var(--red); }
+  .hero p.sub { margin: 20px auto 0; max-width: 620px; color: var(--muted); font-size: 17px; }
+  .hero .cta { margin-top: 32px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .hero .footnote { margin-top: 14px; font-size: 13px; color: var(--muted); }
+
+  /* Tile table mock */
+  .mock {
+    margin: 46px auto 0; max-width: 720px; padding: 26px 18px;
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+    box-shadow: 0 30px 80px rgba(0,0,0,.45);
+  }
+  .mock .row { display: flex; justify-content: center; gap: 8px; margin: 6px 0; flex-wrap: wrap; }
+  .mock .row .t {
+    width: 44px; height: 62px; border-radius: 8px; background: #f6f7f4;
+    display: grid; place-items: center; font-size: 22px; color: #143;
+    box-shadow: 0 3px 8px rgba(0,0,0,.35); border: 1px solid #d8dcd3;
+  }
+  .mock .row .t.red { color: var(--red); }
+  .mock .row .t.hz { background: linear-gradient(145deg, var(--green), var(--green-d)); color: #fff; }
+  .mock .row .t.face { color: #fff; border-color: transparent; }
+  .mock .tag { text-align: center; margin-top: 16px; font-size: 13px; color: var(--muted); }
+  .mock .tag b { color: var(--text); }
+
+  /* Sections */
+  section { padding: 56px 0; }
+  section h2 { font-size: clamp(24px, 3.6vw, 34px); text-align: center; font-weight: 800; letter-spacing: -.4px; }
+  section .lead { text-align: center; color: var(--muted); margin: 12px auto 40px; max-width: 560px; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; }
+  .card {
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 24px; transition: transform .15s, border-color .15s;
+  }
+  .card:hover { transform: translateY(-2px); border-color: rgba(16,185,129,.5); }
+  .card .ico { font-size: 26px; }
+
+  /* Pricing */
+  .pricing .grid { align-items: stretch; }
+  .price-card { text-align: center; padding: 30px 26px; display: flex; flex-direction: column; gap: 6px; }
+  .price-card.featured { border-color: var(--green); box-shadow: 0 14px 50px rgba(16,185,129,.18); position: relative; }
+  .price-card.featured .flag {
+    position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+    background: var(--green); color: #fff; font-size: 12px; font-weight: 700;
+    padding: 4px 12px; border-radius: 999px; letter-spacing: .3px;
+  }
+  .price-card h3 { font-size: 17px; margin-bottom: 4px; }
+  .price-card .price { font-size: 34px; font-weight: 800; }
+  .price-card .price small { font-size: 14px; color: var(--muted); font-weight: 500; }
+  .price-card ul { list-style: none; margin: 16px 0 22px; text-align: left; color: var(--muted); font-size: 14px; }
+  .price-card ul li { padding: 5px 0; }
+  .price-card ul li::before { content: "✓ "; color: var(--green); font-weight: 700; }
+  .price-card ul li.no::before { content: "✕ "; color: var(--red); }
+  .price-card .btn { justify-content: center; }
+
+  /* FAQ */
+  .faq .card { padding: 20px 24px; margin-bottom: 12px; }
+  .faq .card b { display: block; margin-bottom: 4px; }
+
+  footer {
+    border-top: 1px solid var(--line); margin-top: 40px; padding: 30px 22px 46px;
+    display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;
+    max-width: 1080px; margin-left: auto; margin-right: auto;
+    color: var(--muted); font-size: 13px;
+  }
+  footer a { text-decoration: none; }
+  footer a:hover { color: var(--text); }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="logo">
+    <span class="tile-logo">中</span>
+    <span>Hongzhong Mahjong<small> Trainer</small></span>
+  </div>
+  <nav class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#pricing">Pricing</a>
+    <a href="https://github.com/DG2102005/hongzhong-mahjong-trainer" target="_blank" rel="noopener">GitHub</a>
+    <a class="btn" href="https://app.hongzhongmahjong.com" id="play-btn" style="padding-left:14px;padding-right:14px;font-size:14px">Start Playing</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <span class="kicker">🀄 Free to play · No sign-up · Works on phone &amp; desktop</span>
+    <h1>Master the <em>Hongzhong</em> <span class="hong">wild-tile</span> mahjong.</h1>
+    <p class="sub">Play the classic Cantonese 推倒胡 with <b>红中 as a wild card</b> against 3 AI opponents.
+    Get a <b>smart discard coach</b>, replay every hand, and improvise any ending — all offline.</p>
+    <div class="cta">
+      <a class="btn" href="https://app.hongzhongmahjong.com">▶ Start Playing — Free</a>
+      <a class="btn ghost" href="#pricing">See Pro Plans</a>
+    </div>
+    <p class="footnote">Self-draw &amp; rob-the-kong · real-time kong scoring · no real-money gambling</p>
+  </div>
+
+  <div class="mock wrap">
+    <div class="row">
+      <span class="t">五</span><span class="t red">七</span><span class="t">…</span><span class="t">二</span>
+      <span class="t hz">中</span><span class="t red">一</span><span class="t">…</span><span class="t face" style="background:var(--bg);box-shadow:none;border-style:dashed;border-color:var(--line);color:var(--muted)">?</span><span class="t">三</span>
+    </div>
+    <div class="row">
+      <span class="t">八</span><span class="t">四</span><span class="t red">九</span><span class="t">…</span><span class="t">北</span><span class="t">一</span>
+    </div>
+    <div class="tag">Your hand · <b>中 (Zhong)</b> can stand for <b>any</b> tile — see 胡 waiting lines instantly</div>
+  </div>
+</div>
+
+<section id="features">
+  <div class="wrap">
+    <h2>Train like you play.</h2>
+    <p class="lead">Built for players who want real reps — not just instructions.</p>
+    <div class="grid">
+      <div class="card"><div class="ico">🤖</div><h3>You vs 3 AI</h3><p>Full 4-player Cantonese mahjong with 红中 wild, auto tile-sorting, counter-clockwise flow.</p></div>
+      <div class="card"><div class="ico">🎯</div><h3>Smart discard coach</h3><p>The advisor ranks every possible discard: shanten distance, waiting tiles, and draw odds.</p></div>
+      <div class="card"><div class="ico">📚</div><h3>Replay anything</h3><p>Save any round or hand and replay it move-by-move. See exactly what happened, when.</p></div>
+      <div class="card"><div class="ico">✍️</div><h3>Improvise endings</h3><p>Jump back into a saved hand and free-pick your draws and discards to explore winning lines.</p></div>
+      <div class="card"><div class="ico">🐟</div><h3>Pong sim</h3><p>About to declare Pong? The coach simulates it — compare shanten and wins vs skipping.</p></div>
+      <div class="card"><div class="ico">🧮</div><h3>Instant scoring</h3><p>Self-draw wins, robbed kongs, and kong points settle automatically, permanently.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing" class="pricing">
+  <div class="wrap">
+    <h2>Simple pricing.</h2>
+    <p class="lead">Core play is free forever. Pro unlocks replay, improvise, custom deals and the full coach.</p>
+    <div class="grid">
+      <div class="card price-card">
+        <h3>Free</h3>
+        <div class="price">$0</div>
+        <ul>
+          <li>Unlimited matches vs AI</li>
+          <li>Score &amp; statistic tracking</li>
+          <li>Hand breakdown tool</li>
+          <li>Undo / redo</li>
+          <li class="no">Save &amp; replay rounds</li>
+          <li class="no">Improvise endings</li>
+          <li class="no">Custom deal start</li>
+          <li class="no">Smart discard coach</li>
+        </ul>
+        <a class="btn" href="https://app.hongzhongmahjong.com">Play free</a>
+      </div>
+
+      <div class="card price-card featured">
+        <span class="flag">MOST POPULAR</span>
+        <h3>Pro</h3>
+        <div class="price">$4.9 <small>/ month</small></div>
+        <ul>
+          <li>Everything in Free</li>
+          <li>Save &amp; replay every round</li>
+          <li>Improvise alternative endings</li>
+          <li>Custom deal starting hands</li>
+          <li>Full smart discard coach</li>
+          <li>Supports development ❤️</li>
+        </ul>
+        <a class="btn" href="https://app.hongzhongmahjong.com/api/checkout?productId=prod_4uIAoE6h0iKFPYsUoLrI6j" id="buy-monthly">Upgrade monthly</a>
+      </div>
+
+      <div class="card price-card">
+        <h3>Pro — Yearly</h3>
+        <div class="price">$39 <small>/ year</small> <small style="color:var(--green)">≈ $3.3/mo</small></div>
+        <ul>
+          <li>Everything in Pro monthly</li>
+          <li>2 months free vs monthly</li>
+          <li>Priority feature requests</li>
+        </ul>
+        <a class="btn" href="https://app.hongzhongmahjong.com/api/checkout?productId=prod_bpMkyNVdt5gKcA9fhoG6F" id="buy-yearly">Save 33% — yearly</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="faq">
+  <div class="wrap">
+    <h2>FAQ</h2>
+    <p class="lead">Questions players ask before opening an account.</p>
+    <div class="card">
+      <b>Do I need an account?</b>
+      <p style="color:var(--muted)">No. The game runs entirely in your browser and saves locally on your device.</p>
+    </div>
+    <div class="card">
+      <b>Is this real-money gambling?</b>
+      <p style="color:var(--muted)">No — this is a pure training tool. No cash, no chips, no betting. Just reps.</p>
+    </div>
+    <div class="card">
+      <b>What are the rules?</b>
+      <p style="color:var(--muted)">Cantonese 推倒胡 with 红中 as a wild tile (百搭), self-draw win counts, rob-the-kong win, exposed/concealed/replacement kongs scored.</p>
+    </div>
+    <div class="card">
+      <b>How do I unlock Pro?</b>
+      <p style="color:var(--muted)">Head to the app, tap any locked feature, and check out with Creem (credit card, PayPal, Apple Pay…). Your license key unlocks instantly.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© <script>document.write(new Date().getFullYear())</script> Hongzhong Mahjong Trainer — not affiliated with any casino.</span>
+  <span><a href="#top">Top</a> · <a href="https://github.com/DG2102005/hongzhong-mahjong-trainer" target="_blank" rel="noopener">GitHub</a></span>
+</footer>
+
+</body>
+</html>

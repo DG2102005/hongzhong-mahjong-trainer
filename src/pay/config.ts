@@ -8,8 +8,8 @@
 // 激活码验证同样走代理: POST /api/licenses/activate
 //   Function 环境变量: CREEM_API_KEY(测试用 test key / 上线用 prod key), CREEM_API_BASE
 export const CREEM_PRODUCTS: Record<'monthly' | 'yearly', string> = {
-  monthly: 'prod_4uIAoE6h0iKFPYsUoLrI6j',
-  yearly: 'prod_bpMkyNVdt5gKcA9fhoG6F',
+  monthly: 'prod_7R0ZTMhzGIU5rlBfvzqfAz',
+  yearly: 'prod_7R0ZTMhzGIU5rlBfvzqfAz',
 };
 
 export const CREEM_CONFIGURED =

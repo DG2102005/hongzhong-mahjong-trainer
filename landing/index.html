@@ -1,13 +1,11 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Hongzhong Mahjong Trainer — Cantonese Wild-Tile Practice Tool</title>
-<meta name="description" content="Practice Cantonese 推倒胡 with 红中 wild against 3 AI. Smart discard coach, hand replay, improvise endings. Free in your browser." />
-<meta property="og:title" content="Hongzhong Mahjong Trainer" />
-<meta property="og:description" content="Cantonese wild-tile mahjong trainer. Coach, replay, improvise. No sign-up." />
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 44'%3E%3Crect width='32' height='44' rx='5' fill='%23f5ecd7'/%3E%3Crect x='1' y='1' width='30' height='6' rx='3' fill='%232e8b57'/%3E%3Ctext x='16' y='33' font-size='22' text-anchor='middle' fill='%23c0392b' font-weight='bold'%3E%E4%B8%AD%3C/text%3E%3C/svg%3E" />
+<title>红中麻将陪练 — 广东推倒胡 · 三人 AI · 智能教练</title>
+<meta name="description" content="广东推倒胡红中百搭训练工具。三 AI 同桌、弃牌教练、复盘、自由改牌。打开浏览器直接玩，不用下载。" />
+<link rel="icon" href="assets/中.png" />
 <style>
   :root {
     --felt: #0e3a2a;
@@ -106,32 +104,19 @@
     border: 1px solid var(--line); border-radius: 18px;
     box-shadow: 0 30px 80px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.05);
   }
-  .hand .row { display: flex; justify-content: center; gap: 10px; margin: 8px 0; flex-wrap: wrap; }
-  .tile {
-    width: 48px; height: 68px; border-radius: 8px 8px 4px 4px;
-    background: linear-gradient(180deg, #fdf8e8 0%, var(--tile) 60%, var(--tile-s) 100%);
-    display: grid; place-items: center;
-    font-size: 24px; color: #2c3e50; font-weight: 600;
-    box-shadow:
-      0 4px 0 #c9b88a,
-      0 6px 12px rgba(0,0,0,.45),
-      inset 0 2px 0 rgba(255,255,255,.7);
-    position: relative;
-    font-family: "Noto Serif SC", "Songti SC", Georgia, serif;
+  .hand .row { display: flex; justify-content: center; gap: 12px; margin: 8px 0; flex-wrap: wrap; }
+  .hand .tile-img {
+    width: 72px; height: 100px; object-fit: cover; border-radius: 8px;
+    box-shadow: 0 6px 16px rgba(0,0,0,.5);
+    transition: transform .2s;
   }
-  .tile::before {
-    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 6px;
-    background: var(--green); border-radius: 8px 8px 0 0;
+  .hand .tile-img:hover { transform: translateY(-6px); }
+  .hand .tile-unknown {
+    width: 72px; height: 100px; border-radius: 8px;
+    background: repeating-linear-gradient(45deg, #1a3a2a, #1a3a2a 8px, #153325 8px, #153325 16px);
+    border: 2px dashed rgba(240,230,207,.3);
+    display: grid; place-items: center; color: var(--muted); font-size: 28px;
   }
-  .tile.red { color: var(--red); }
-  .tile.hz { background: linear-gradient(180deg, #e8f4e8 0%, #c8e6c9 100%); }
-  .tile.hz::before { background: var(--red); }
-  .tile.hz .char { color: var(--red); font-weight: 700; }
-  .tile.face {
-    background: transparent; box-shadow: none; border: 2px dashed rgba(240,230,207,.3);
-    color: var(--muted); font-size: 20px;
-  }
-  .tile.face::before { display: none; }
   .hand .caption {
     text-align: center; margin-top: 20px; font-size: 14px; color: var(--muted);
     font-family: -apple-system, "Segoe UI", sans-serif;
@@ -204,6 +189,28 @@
   }
   .faq .card p { color: var(--muted); font-size: 14.5px; font-family: -apple-system, "Segoe UI", sans-serif; }
 
+  /* Feedback modal */
+  .modal-bg {
+    position: fixed; inset: 0; background: rgba(0,0,0,.7);
+    display: none; align-items: center; justify-content: center; z-index: 100;
+    padding: 20px;
+  }
+  .modal-bg.open { display: flex; }
+  .modal {
+    background: var(--felt-d); border: 1px solid var(--line); border-radius: 16px;
+    max-width: 480px; width: 100%; padding: 32px;
+  }
+  .modal h3 { font-family: "Noto Serif SC", serif; font-size: 22px; margin-bottom: 8px; }
+  .modal p { color: var(--muted); font-size: 14px; margin-bottom: 20px; }
+  .modal textarea {
+    width: 100%; min-height: 120px; background: rgba(240,230,207,.06);
+    border: 1px solid var(--line); border-radius: 10px; color: var(--text);
+    padding: 12px; font-family: inherit; font-size: 14px; resize: vertical;
+    margin-bottom: 16px;
+  }
+  .modal textarea:focus { outline: none; border-color: var(--gold); }
+  .modal .row { display: flex; gap: 10px; justify-content: flex-end; }
+
   footer {
     border-top: 1px solid var(--line); margin-top: 40px; padding: 30px 22px 46px;
     display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;
@@ -219,14 +226,14 @@
 
 <header class="nav">
   <div class="logo">
-    <span class="tile-logo">中</span>
-    <span>Hongzhong Mahjong<small> Trainer</small></span>
+    <img src="assets/中.png" alt="中" />
+    <span>红中麻将<small> 陪练</small></span>
   </div>
   <nav class="nav-links">
-    <a href="#features">Features</a>
-    <a href="#pricing">Pricing</a>
-    <a href="https://github.com/DG2102005/hongzhong-mahjong-trainer" target="_blank" rel="noopener">GitHub</a>
-    <a class="btn" href="https://app.hongzhongmahjong.com" id="play-btn" style="padding-left:14px;padding-right:14px;font-size:14px">Play Now</a>
+    <a href="#features">功能</a>
+    <a href="#pricing">价格</a>
+    <a id="feedback-link">意见箱</a>
+    <a class="btn" href="https://app.hongzhongmahjong.com" style="padding-left:14px;padding-right:14px;font-size:14px">开始练牌</a>
   </nav>
 </header>
 
@@ -234,24 +241,33 @@
   <div class="wrap">
     <span class="kicker">推倒胡 · 红中百搭 · 三人 AI 陪练</span>
     <h1>练牌不用等人。<br/><span class="gold">打开浏览器，</span><span class="red">立刻摸一张。</span></h1>
-    <p class="sub">Cantonese mahjong with 红中 as a wild tile, against three AI opponents.
-    Smart discard coach, hand replay, improvise any ending — no download, no account, no chips.</p>
+    <p class="sub">广东推倒胡，红中百搭，三个 AI 同桌陪你打。
+    弃牌教练、复盘每一手、自由改牌试听路 —— 不用下载，不用注册，不用筹码。</p>
     <div class="cta">
-      <a class="btn" href="https://app.hongzhongmahjong.com">Start Practising</a>
-      <a class="btn ghost" href="#pricing">See Pro</a>
+      <a class="btn" href="https://app.hongzhongmahjong.com">开始练牌 — 免费</a>
+      <a class="btn ghost" href="#pricing">看 Pro 版</a>
     </div>
     <p class="footnote">自摸 · 抢杠 · 杠上开花 · 一切牌型即时结算</p>
   </div>
 
   <div class="hand wrap">
     <div class="row">
-      <span class="tile">五</span><span class="tile red">七</span><span class="tile">…</span><span class="tile">二</span>
-      <span class="tile hz"><span class="char">中</span></span><span class="tile red">一</span><span class="tile">…</span><span class="tile face">?</span><span class="tile">三</span>
+      <img class="tile-img" src="assets/五万.png" alt="五万" />
+      <img class="tile-img" src="assets/七万.png" alt="七万" />
+      <div class="tile-unknown">?</div>
+      <img class="tile-img" src="assets/二万.png" alt="二万" />
+      <img class="tile-img" src="assets/中.png" alt="中" />
+      <img class="tile-img" src="assets/一万.png" alt="一万" />
+      <div class="tile-unknown">?</div>
+      <img class="tile-img" src="assets/三万.png" alt="三万" />
     </div>
     <div class="row">
-      <span class="tile">八</span><span class="tile">四</span><span class="tile red">九</span><span class="tile">…</span><span class="tile">北</span><span class="tile">一</span>
+      <img class="tile-img" src="assets/八万.png" alt="八万" />
+      <img class="tile-img" src="assets/四万.png" alt="四万" />
+      <img class="tile-img" src="assets/九万.png" alt="九万" />
+      <img class="tile-img" src="assets/北.png" alt="北" />
     </div>
-    <div class="caption"><b>红中</b> 百搭 — 想胡哪张？Coach 直接告诉你</div>
+    <div class="caption"><b>红中</b> 百搭 — 想胡哪张？教练直接告诉你</div>
   </div>
 </div>
 
@@ -301,7 +317,7 @@
     <div class="grid">
       <div class="card price-card">
         <h3>免费版</h3>
-        <div class="price">$0</div>
+        <div class="price">¥0</div>
         <ul>
           <li>无限局 vs AI</li>
           <li>得分与统计</li>
@@ -368,9 +384,39 @@
 </section>
 
 <footer>
-  <span>© <script>document.write(new Date().getFullYear())</script> Hongzhong Mahjong Trainer — not affiliated with any casino.</span>
-  <span><a href="#top">回到顶部</a> · <a href="https://github.com/DG2102005/hongzhong-mahjong-trainer" target="_blank" rel="noopener">GitHub</a></span>
+  <span>© <script>document.write(new Date().getFullYear())</script> 红中麻将陪练 — 非任何赌场关联。</span>
+  <span><a href="#top">回到顶部</a> · <a id="feedback-link-2">意见箱</a></span>
 </footer>
+
+<!-- 意见箱弹窗 -->
+<div class="modal-bg" id="feedback-modal">
+  <div class="modal">
+    <h3>意见箱</h3>
+    <p>规则不对、AI 太蠢、想加功能 —— 都写在这里。点发送会跳到你的邮件客户端。</p>
+    <textarea id="feedback-text" placeholder="想反馈什么？"></textarea>
+    <div class="row">
+      <button class="btn ghost" id="feedback-cancel">取消</button>
+      <button class="btn" id="feedback-send">发送</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const modal = document.getElementById('feedback-modal');
+  const open = () => modal.classList.add('open');
+  const close = () => modal.classList.remove('open');
+  document.getElementById('feedback-link').addEventListener('click', open);
+  document.getElementById('feedback-link-2').addEventListener('click', open);
+  document.getElementById('feedback-cancel').addEventListener('click', close);
+  document.getElementById('feedback-send').addEventListener('click', () => {
+    const text = document.getElementById('feedback-text').value.trim();
+    if (!text) { alert('写点什么吧'); return; }
+    const body = encodeURIComponent(text);
+    window.location.href = 'mailto:feedback@hongzhongmahjong.com?subject=' + encodeURIComponent('红中麻将陪练 - 反馈') + '&body=' + body;
+    close();
+  });
+  modal.addEventListener('click', (e) => { if (e.target === modal) close(); });
+</script>
 
 </body>
 </html>

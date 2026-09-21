@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { t } from '../i18n';
 import { CREEM_PRODUCTS, CREEM_CONFIGURED, type ProPlan } from '../pay/config';
-import { activateLicense, deactivateLicense } from '../pay/license';
+import { activateLicense, deactivateLicense, getTrialUsed, TRIAL_LIMIT } from '../pay/license';
 
 interface Props {
   feature: string | null; // null => 关闭; '' => 通用定价(Pro徽标); 其他 => 具体锁定功能

@@ -61,3 +61,42 @@ export function deactivateLicense(): void {
     /* ignore */
   }
 }
+
+// === Pro 功能免费试用计数 ===
+// 未激活 Pro 的用户，Pro 功能可以免费试用 TRIAL_LIMIT 次；超过后弹付费墙。
+// 已激活 Pro 的用户不受此计数影响。
+const TRIAL_KEY = 'redcenter.pro.trial';
+export const TRIAL_LIMIT = 5;
+
+export function getTrialUsed(): number {
+  try {
+    const n = parseInt(localStorage.getItem(TRIAL_KEY) ?? '0', 10);
+    return Number.isFinite(n) && n > 0 ? n : 0;
+  } catch {
+    return 0;
+  }
+}
+
+function setTrialUsed(n: number): void {
+  try {
+    localStorage.setItem(TRIAL_KEY, String(n));
+  } catch {
+    /* ignore */
+  }
+}
+
+/**
+ * 尝试使用一个 Pro 功能。
+ * - 已激活 Pro：返回 true，不计次数。
+ * - 未激活但仍在试用次数内：计数 +1，返回 true。
+ * - 试用次数用完：返回 false（调用方应弹付费墙）。
+ */
+export function tryProFeature(): boolean {
+  if (isPro()) return true;
+  const used = getTrialUsed();
+  if (used < TRIAL_LIMIT) {
+    setTrialUsed(used + 1);
+    return true;
+  }
+  return false;
+}

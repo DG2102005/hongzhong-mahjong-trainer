@@ -18,7 +18,7 @@ import { FreeDrawBar } from './components/FreeDrawBar';
 import { loadSavedRounds } from './game/savedRounds';
 import type { SavedRound } from './game/savedRounds';
 import { saveRound } from './game/savedRounds';
-import { isPro } from './pay/license';
+import { isPro, tryProFeature, getTrialUsed, TRIAL_LIMIT } from './pay/license';
 import { PaywallModal } from './pay/PaywallModal';
 
 type View = 'game' | 'review';
@@ -37,7 +37,7 @@ function App() {
 
   // 切回对弈时同步最新积分; 切到复盘时刷新收藏列表
   const switchView = (v: View) => {
-    if (v === 'review' && !isPro()) { setPayFeature('replay'); return; }
+    if (v === 'review' && !tryProFeature()) { setPayFeature('replay'); return; }
     if (v === 'game') game.scoreReload();
     if (v === 'review') setSavedRounds(loadSavedRounds());
     setView(v);
@@ -145,19 +145,19 @@ function App() {
           {view === 'game' && !started && (
             <>
               <button className="start-btn" onClick={startGame}>{t('btn.start')}</button>
-              <button className="start-btn ghost" onClick={() => { if (!pro) { setPayFeature('custom'); return; } setShowPicker(true); }}>{t('btn.custom')}</button>
+              <button className="start-btn ghost" onClick={() => { if (!tryProFeature()) { setPayFeature('custom'); return; } setShowPicker(true); }}>{t('btn.custom')}</button>
             </>
           )}
           {view === 'game' && started && !gameOver && (
-            <button className="start-btn ghost" onClick={() => { if (!pro) { setPayFeature('save'); return; } handleSaveRound(t('save.ongoing')); }}>
+            <button className="start-btn ghost" onClick={() => { if (!tryProFeature()) { setPayFeature('save'); return; } handleSaveRound(t('save.ongoing')); }}>
               {t('btn.saveHand')}
             </button>
           )}
           {view === 'game' && gameOver && (
             <>
               <button className="start-btn" onClick={newRound}>{t('btn.newRound')}</button>
-              <button className="start-btn ghost" onClick={() => { if (!pro) { setPayFeature('custom'); return; } setShowPicker(true); }}>{t('btn.custom')}</button>
-              <button className="start-btn ghost" onClick={() => { if (!pro) { setPayFeature('save'); return; } handleSaveRound(); }}>{t('btn.saveRound')}</button>
+              <button className="start-btn ghost" onClick={() => { if (!tryProFeature()) { setPayFeature('custom'); return; } setShowPicker(true); }}>{t('btn.custom')}</button>
+              <button className="start-btn ghost" onClick={() => { if (!tryProFeature()) { setPayFeature('save'); return; } handleSaveRound(); }}>{t('btn.saveRound')}</button>
             </>
           )}
         </div>
@@ -200,7 +200,7 @@ function App() {
                     </div>
                     <div className="welcome-actions">
                       <button className="start-btn big" onClick={startGame}>{t('btn.start')}</button>
-                      <button className="start-btn big ghost" onClick={() => { if (!pro) { setPayFeature('custom'); return; } setShowPicker(true); }}>{t('btn.custom')}</button>
+                      <button className="start-btn big ghost" onClick={() => { if (!tryProFeature()) { setPayFeature('custom'); return; } setShowPicker(true); }}>{t('btn.custom')}</button>
                     </div>
                   </div>
                 )}
@@ -280,7 +280,7 @@ function App() {
               <button className={`tab ${sideTab === 'info' ? 'active' : ''}`} onClick={() => setSideTab('info')}>
                 {t('tab.info')}
               </button>
-              <button className={`tab ${sideTab === 'advisor' ? 'active' : ''}`} onClick={() => { if (!pro) { setPayFeature('advisor'); return; } setSideTab('advisor'); }}>
+              <button className={`tab ${sideTab === 'advisor' ? 'active' : ''}`} onClick={() => { if (!tryProFeature()) { setPayFeature('advisor'); return; } setSideTab('advisor'); }}>
                 {t('tab.advisor')}
               </button>
             </div>

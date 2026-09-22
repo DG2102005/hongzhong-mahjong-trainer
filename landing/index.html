@@ -214,7 +214,11 @@
 
   /* Bento features */
   .bento { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }
-  .bento .b-img { grid-column: span 4; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); position: relative; }
+  .bento .b-img { grid-column: span 4; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); position: relative; background-size: cover; background-position: center; min-height: 320px; }
+  .bento .b-img .hand-overlay { position: absolute; left: 50%; bottom: 8%; transform: translateX(-50%); display: flex; gap: 10px; }
+  .bento .b-img .hand-overlay img { width: 58px; height: 80px; object-fit: cover; border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,.6); }
+  .bento .b-img .review-overlay { position: absolute; left: 50%; top: 32%; transform: translateX(-50%); display: flex; gap: 8px; }
+  .bento .b-img .review-overlay img { width: 48px; height: 66px; object-fit: cover; border-radius: 4px; box-shadow: 0 3px 8px rgba(0,0,0,.5); }
   .bento .b-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .bento .b-text { grid-column: span 2; background: rgba(240,230,207,.04); border: 1px solid var(--line); border-radius: var(--radius); padding: 26px; display: flex; flex-direction: column; justify-content: center; }
   .bento .b-text h3 { font-family: "Noto Serif SC", serif; font-size: 20px; margin-bottom: 8px; }
@@ -289,7 +293,12 @@
     <h2>不是教程，是陪练。</h2>
     <p class="lead">你缺的不是规则讲解，是没人陪你打。</p>
     <div class="bento">
-      <div class="b-img"><img src="assets/table.jpg" alt="牌桌界面：三个 AI 同桌，弃牌教练实时给建议" /></div>
+      <div class="b-img" style="background-image:url('assets/table-bg.jpg')">
+        <div class="hand-overlay">
+          <img src="assets/一万.png" alt="" /><img src="assets/三万.png" alt="" /><img src="assets/五万.png" alt="" />
+          <img src="assets/七万.png" alt="" /><img src="assets/九万.png" alt="" /><img src="assets/中.png" alt="" /><img src="assets/北.png" alt="" />
+        </div>
+      </div>
       <div class="b-text">
         <h3>三 AI 同桌</h3>
         <p>完整四人局，东南西北逆时针，自动理牌、碰杠。开了浏览器就有人陪你打。</p>
@@ -304,7 +313,13 @@
         <h3>自由改牌</h3>
         <p>回到任一手，把自摸和弃牌换一换，试听那条本来会胡的路。</p>
       </div>
-      <div class="b-img"><img src="assets/review.jpg" alt="复盘界面：逐回合回放每一手" /></div>
+      <div class="b-img" style="background-image:url('assets/review-bg.jpg')">
+        <div class="review-overlay">
+          <img src="assets/一万.png" alt="" /><img src="assets/二万.png" alt="" /><img src="assets/三万.png" alt="" />
+          <img src="assets/四万.png" alt="" /><img src="assets/五万.png" alt="" /><img src="assets/七万.png" alt="" />
+          <img src="assets/八万.png" alt="" /><img src="assets/九万.png" alt="" />
+        </div>
+      </div>
       <div class="b-text">
         <h3>复盘任何一局</h3>
         <p>每一手都存下来，逐回合回放。哪张牌打错了，什么时候开始输的，清清楚楚。</p>
